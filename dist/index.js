@@ -29880,11 +29880,11 @@ const { Octokit } = __nccwpck_require__(5772);
 class GitHubAPI {
   constructor(token) {
     this.octokit = new Octokit({
-      auth: token,
+      auth: token
     });
   }
 
-  async getContributions(username, fromDate = null, toDate = null) {
+  async getContributions(username, _fromDate = null, _toDate = null) {
     const query = `
       query($username: String!) {
         user(login: $username) {
@@ -29917,7 +29917,7 @@ class GitHubAPI {
   processContributionData(calendar) {
     const contributions = [];
     const totalContributions = calendar.totalContributions;
-    
+
     calendar.weeks.forEach((week, weekIndex) => {
       week.contributionDays.forEach((day, dayIndex) => {
         contributions.push({
@@ -29967,6 +29967,7 @@ class GitHubAPI {
 }
 
 module.exports = GitHubAPI;
+
 
 /***/ }),
 
@@ -30061,6 +30062,7 @@ if (require.main === require.cache[eval('__filename')]) {
 
 module.exports = main;
 
+
 /***/ }),
 
 /***/ 4209:
@@ -30073,7 +30075,7 @@ class PacManGenerator {
     this.animationSpeed = options.animationSpeed || 'normal';
     this.showScore = options.showScore !== 'false';
     this.mazeComplexity = options.mazeComplexity || 'normal';
-    
+
     this.themes = {
       classic: {
         background: '#000000',
@@ -30113,15 +30115,15 @@ class PacManGenerator {
   generateSVG(contributionData, userInfo) {
     const { contributions, totalContributions, weeks } = contributionData;
     const theme = this.themes[this.theme];
-    
+
     const width = Math.max(800, weeks * 12 + 100);
     const height = 400;
     const cellSize = 10;
-    
+
     // Calculate Pac-Man path through contributions
     const path = this.generatePacManPath(contributions);
     const eatenDots = this.calculateEatenDots(contributions, path);
-    
+
     return `
       <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
         <defs>
@@ -30144,7 +30146,7 @@ class PacManGenerator {
     `;
   }
 
-  generateDefinitions(theme) {
+  generateDefinitions(_theme) {
     return `
       <filter id="glow">
         <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
@@ -30164,24 +30166,24 @@ class PacManGenerator {
     let maze = '';
     const startX = 50;
     const startY = 50;
-    
+
     // Create maze walls around contribution grid
     for (let week = 0; week < Math.max(...contributions.map(c => c.x)) + 1; week++) {
       for (let day = 0; day < 7; day++) {
         const x = startX + week * (cellSize + 2);
         const y = startY + day * (cellSize + 2);
-        
+
         // Add maze walls with some randomness based on complexity
         if (this.shouldDrawWall(week, day)) {
           maze += `<rect x="${x}" y="${y}" width="${cellSize}" height="${cellSize}" fill="${theme.wall}" opacity="0.3"/>`;
         }
       }
     }
-    
+
     return maze;
   }
 
-  shouldDrawWall(week, day) {
+  shouldDrawWall(_week, _day) {
     if (this.mazeComplexity === 'simple') return false;
     if (this.mazeComplexity === 'complex') return Math.random() < 0.1;
     return Math.random() < 0.05;
@@ -30191,7 +30193,7 @@ class PacManGenerator {
     let dots = '';
     const startX = 50;
     const startY = 50;
-    
+
     contributions.forEach((contrib, index) => {
       if (contrib.count > 0) {
         const x = startX + contrib.x * (cellSize + 2) + cellSize / 2;
@@ -30199,7 +30201,7 @@ class PacManGenerator {
         const isEaten = eatenDots.includes(index);
         const opacity = isEaten ? 0 : 1;
         const size = Math.min(2 + contrib.level, 4);
-        
+
         dots += `
           <circle 
             cx="${x}" 
@@ -30214,7 +30216,7 @@ class PacManGenerator {
         `;
       }
     });
-    
+
     return dots;
   }
 
@@ -30222,13 +30224,13 @@ class PacManGenerator {
     // Create a path through contributions, prioritizing higher contribution areas
     const validContribs = contributions.filter(c => c.count > 0);
     if (validContribs.length === 0) return [];
-    
+
     // Sort by week, then by day to create a snake-like path
     validContribs.sort((a, b) => {
       if (a.x !== b.x) return a.x - b.x;
       return a.y - b.y;
     });
-    
+
     return validContribs.map(contrib => ({
       x: 50 + contrib.x * 12 + 5,
       y: 50 + contrib.y * 12 + 5,
@@ -30238,10 +30240,10 @@ class PacManGenerator {
 
   generatePacMan(path, theme) {
     if (path.length === 0) return '';
-    
+
     const speedMultiplier = this.getSpeedMultiplier();
     const totalDuration = path.length * 0.2 / speedMultiplier;
-    
+
     let pathString = '';
     path.forEach((point, index) => {
       if (index === 0) {
@@ -30250,7 +30252,7 @@ class PacManGenerator {
         pathString += ` L ${point.x} ${point.y}`;
       }
     });
-    
+
     return `
       <g class="pacman" filter="url(#glow)">
         <circle cx="0" cy="0" r="8" fill="${theme.pacman}">
@@ -30278,16 +30280,16 @@ class PacManGenerator {
 
   generateGhosts(path, theme) {
     if (path.length === 0) return '';
-    
+
     let ghosts = '';
     const speedMultiplier = this.getSpeedMultiplier();
     const totalDuration = path.length * 0.2 / speedMultiplier;
-    
+
     for (let i = 0; i < Math.min(this.ghostCount, 4); i++) {
       const ghostColor = theme.ghosts[i];
       const delay = (i + 1) * 2; // Stagger ghost starts
       const ghostSize = 7;
-      
+
       ghosts += `
         <g class="ghost ghost-${i}">
           <circle cx="0" cy="0" r="${ghostSize}" fill="${ghostColor}" filter="url(#shadow)">
@@ -30300,7 +30302,7 @@ class PacManGenerator {
         </g>
       `;
     }
-    
+
     return ghosts;
   }
 
@@ -30312,7 +30314,7 @@ class PacManGenerator {
       const offsetY = (ghostIndex < 2 ? 1 : -1) * 10;
       const x = point.x + offsetX;
       const y = point.y + offsetY;
-      
+
       if (index === 0) {
         pathString += `M ${x} ${y}`;
       } else {
@@ -30325,7 +30327,7 @@ class PacManGenerator {
   generateScoreBoard(totalContributions, eatenDots, theme, userInfo) {
     const score = eatenDots * 10;
     const level = Math.floor(eatenDots / 50) + 1;
-    
+
     return `
       <g class="scoreboard">
         <rect x="10" y="10" width="200" height="80" fill="${theme.background}" stroke="${theme.text}" stroke-width="2" opacity="0.9"/>
@@ -30349,13 +30351,13 @@ class PacManGenerator {
     let pellets = '';
     const startX = 50;
     const startY = 50;
-    
+
     // Add power pellets for high contribution days (>10 contributions)
-    contributions.forEach((contrib, index) => {
+    contributions.forEach((contrib, _index) => {
       if (contrib.count > 10) {
         const x = startX + contrib.x * (cellSize + 2) + cellSize / 2;
         const y = startY + contrib.y * (cellSize + 2) + cellSize / 2;
-        
+
         pellets += `
           <circle cx="${x}" cy="${y}" r="6" fill="${theme.dot}" filter="url(#glow)">
             <animate attributeName="r" values="6;8;6" dur="1s" repeatCount="indefinite"/>
@@ -30364,7 +30366,7 @@ class PacManGenerator {
         `;
       }
     });
-    
+
     return pellets;
   }
 
@@ -30372,7 +30374,7 @@ class PacManGenerator {
     // Simulate which dots Pac-Man would eat along his path
     const eatenDots = [];
     const tolerance = 15; // Distance tolerance for "eating" a dot
-    
+
     path.forEach(pathPoint => {
       contributions.forEach((contrib, index) => {
         if (contrib.count > 0) {
@@ -30381,22 +30383,22 @@ class PacManGenerator {
           const distance = Math.sqrt(
             Math.pow(pathPoint.x - contribX, 2) + Math.pow(pathPoint.y - contribY, 2)
           );
-          
+
           if (distance < tolerance && !eatenDots.includes(index)) {
             eatenDots.push(index);
           }
         }
       });
     });
-    
+
     return eatenDots;
   }
 
   getSpeedMultiplier() {
     switch (this.animationSpeed) {
-      case 'slow': return 0.5;
-      case 'fast': return 2;
-      default: return 1;
+    case 'slow': return 0.5;
+    case 'fast': return 2;
+    default: return 1;
     }
   }
 
@@ -30432,6 +30434,7 @@ class PacManGenerator {
 }
 
 module.exports = PacManGenerator;
+
 
 /***/ }),
 

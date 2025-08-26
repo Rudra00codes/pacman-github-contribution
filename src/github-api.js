@@ -3,11 +3,11 @@ const { Octokit } = require('@octokit/rest');
 class GitHubAPI {
   constructor(token) {
     this.octokit = new Octokit({
-      auth: token,
+      auth: token
     });
   }
 
-  async getContributions(username, fromDate = null, toDate = null) {
+  async getContributions(username, _fromDate = null, _toDate = null) {
     const query = `
       query($username: String!) {
         user(login: $username) {
@@ -40,7 +40,7 @@ class GitHubAPI {
   processContributionData(calendar) {
     const contributions = [];
     const totalContributions = calendar.totalContributions;
-    
+
     calendar.weeks.forEach((week, weekIndex) => {
       week.contributionDays.forEach((day, dayIndex) => {
         contributions.push({
