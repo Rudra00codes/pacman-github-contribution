@@ -30001,17 +30001,17 @@ async function main() {
 
     // Initialize GitHub API
     const githubToken = process.env.GITHUB_TOKEN;
-    
+
     // Check for test/dry run mode
     const isDryRun = process.env.DRY_RUN === 'true' || githubToken === 'dummy_for_test' || !githubToken;
-    
+
     if (isDryRun) {
       console.log('🧪 Running in test mode - generating sample visualization');
-      
+
       // Create comprehensive mock contribution data
       const contributions = [];
       const weeks = 52;
-      
+
       for (let weekIndex = 0; weekIndex < weeks; weekIndex++) {
         for (let dayIndex = 0; dayIndex < 7; dayIndex++) {
           const contributionCount = Math.floor(Math.random() * 15);
@@ -30067,7 +30067,7 @@ async function main() {
 
       // Set outputs for GitHub Action
       core.setOutput('svg_path', outputPath);
-      
+
       // Generate statistics
       const stats = {
         totalContributions: mockContributionData.totalContributions,
@@ -30139,6 +30139,7 @@ if (require.main === require.cache[eval('__filename')]) {
 }
 
 module.exports = main;
+
 
 /***/ }),
 
