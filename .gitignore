@@ -89,7 +89,7 @@ out
 
 # Nuxt.js build / generate output
 .nuxt
-dist
+# dist  # Commented out for GitHub Actions - we need dist/ to be committed
 
 # Gatsby files
 .cache/
