@@ -92,8 +92,8 @@ jobs:
       - name: Test action integration
         uses: ./
         with:
-          github_user_name: octocat
-          outputs: test-output/pacman.svg
+          username: octocat
+          output_path: test-output/pacman.svg
           theme: classic
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -29983,34 +29983,25 @@ const PacManGenerator = __nccwpck_require__(4209);
 async function main() {
   try {
     // Get inputs from GitHub Action
-    const githubUserName = core.getInput('github_user_name') || process.env.GITHUB_USER_NAME;
-    const outputPath = core.getInput('outputs') || 'dist/pacman.svg';
+    const username = core.getInput('username', { required: true });
+    const token = core.getInput('token') || process.env.GITHUB_TOKEN;
+    const outputPath = core.getInput('output_path') || 'pacman-contribution-graph.svg';
     const theme = core.getInput('theme') || 'classic';
-    const ghostCount = core.getInput('ghost_count') || '2';
-    const animationSpeed = core.getInput('animation_speed') || 'normal';
-    const showScore = core.getInput('show_score') || 'true';
-    const mazeComplexity = core.getInput('maze_complexity') || 'normal';
+    const showStats = core.getInput('show_stats') === 'true';
 
-    // Validate inputs
-    if (!githubUserName) {
-      throw new Error('github_user_name is required');
-    }
-
-    console.log(`🎮 Generating Pac-Man animation for ${githubUserName}`);
-    console.log(`Theme: ${theme}, Ghosts: ${ghostCount}, Speed: ${animationSpeed}`);
+    console.log(`🎮 Generating Pac-Man contribution graph for ${username}...`);
 
     // Initialize GitHub API
-    const githubToken = process.env.GITHUB_TOKEN;
-    if (!githubToken) {
-      throw new Error('GITHUB_TOKEN environment variable is required');
+    if (!token) {
+      throw new Error('GitHub token is required. Set GITHUB_TOKEN or provide token input.');
     }
 
-    const githubAPI = new GitHubAPI(githubToken);
+    const githubAPI = new GitHubAPI(token);
 
     // Fetch contribution data
     console.log('📊 Fetching contribution data...');
-    const contributionData = await githubAPI.getContributions(githubUserName);
-    const userInfo = await githubAPI.getUserInfo(githubUserName);
+    const contributionData = await githubAPI.getContributions(username);
+    const userInfo = await githubAPI.getUserInfo(username);
 
     console.log(`Found ${contributionData.totalContributions} contributions`);
 
@@ -30018,10 +30009,7 @@ async function main() {
     console.log('🎨 Generating Pac-Man SVG...');
     const pacManGenerator = new PacManGenerator({
       theme,
-      ghostCount,
-      animationSpeed,
-      showScore,
-      mazeComplexity
+      showScore: showStats
     });
 
     const svg = pacManGenerator.generateSVG(contributionData, userInfo);
@@ -30032,24 +30020,15 @@ async function main() {
 
     // Write SVG file
     await fs.writeFile(outputPath, svg, 'utf8');
-    console.log(`✅ Pac-Man animation saved to ${outputPath}`);
+    console.log(`✅ Pac-Man contribution graph saved to ${outputPath}`);
 
     // Set outputs for GitHub Action
     core.setOutput('svg_path', outputPath);
 
-    // Generate statistics
-    const stats = {
-      totalContributions: contributionData.totalContributions,
-      maxContributions: contributionData.maxCount,
-      activeWeeks: contributionData.weeks,
-      theme: theme,
-      ghostCount: parseInt(ghostCount)
-    };
-
-    console.log('📈 Generation Statistics:', JSON.stringify(stats, null, 2));
+    console.log(`✅ Successfully generated Pacman contribution graph for ${username}`);
 
   } catch (error) {
-    console.error('❌ Error generating Pac-Man animation:', error);
+    console.error('❌ Error generating Pac-Man contribution graph:', error);
     core.setFailed(error.message);
     process.exit(1);
   }

@@ -7,37 +7,29 @@ branding:
   color: 'yellow'
 
 inputs:
-  github_user_name:
-    description: 'GitHub username'
+  username:
+    description: 'GitHub username to generate the graph for'
     required: true
-  outputs:
-    description: 'Output file path'
+  token:
+    description: 'GitHub token for API access'
     required: false
-    default: 'dist/pacman.svg'
+    default: ${{ github.token }}
+  output_path:
+    description: 'Path to save the generated SVG file'
+    required: false
+    default: 'pacman-contribution-graph.svg'
   theme:
-    description: 'Color theme (classic, dark, neon, retro)'
+    description: 'Color theme for the graph (classic, neon, retro)'
     required: false
     default: 'classic'
-  ghost_count:
-    description: 'Number of ghosts (1-4)'
-    required: false
-    default: '2'
-  animation_speed:
-    description: 'Animation speed (slow, normal, fast)'
-    required: false
-    default: 'normal'
-  show_score:
-    description: 'Show score counter'
+  show_stats:
+    description: 'Whether to show contribution stats'
     required: false
     default: 'true'
-  maze_complexity:
-    description: 'Maze complexity (simple, normal, complex)'
-    required: false
-    default: 'normal'
 
 outputs:
   svg_path:
-    description: 'Path to generated SVG file'
+    description: 'Path to the generated SVG file'
 
 runs:
   using: 'node20'
