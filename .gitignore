@@ -160,7 +160,7 @@ pacman-*.svg
 *-pacman.svg
 
 # Build artifacts
-dist/
+# dist/  # Commented out - GitHub Actions need dist/ to be committed
 lib/
 
 # Archive files
