@@ -1,5 +1,5 @@
 name: 'Pac-Man Contribution Eater'
-description: 'Generate an animated Pac-Man that eats your GitHub contributions'
+description: 'Transform your GitHub contribution graph into a fun Pac-Man animation!'
 author: 'Your Name'
 
 branding:
@@ -41,4 +41,5 @@ outputs:
 
 runs:
   using: 'node20'
+
   main: 'dist/index.js'
