@@ -1,0 +1,73 @@
+<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="#0d1117"/>
+  
+  <!-- Title -->
+  <text x="200" y="30" text-anchor="middle" fill="#c9d1d9" font-family="monospace" font-size="16" font-weight="bold">
+    Pacman GitHub Contributions
+  </text>
+  
+  <!-- Sample contribution grid -->
+  <g transform="translate(50, 50)">
+    <!-- Sample dots representing contributions -->
+    <circle cx="20" cy="20" r="3" fill="#c9d1d9"/>
+    <circle cx="35" cy="20" r="4" fill="#ffd93d"/>
+    <circle cx="50" cy="20" r="5" fill="#ffd93d">
+      <animate attributeName="opacity" values="1;0.5;1" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="65" cy="20" r="3" fill="#c9d1d9"/>
+    <circle cx="80" cy="20" r="4" fill="#ffd93d"/>
+    
+    <!-- More rows -->
+    <circle cx="20" cy="35" r="3" fill="#c9d1d9"/>
+    <circle cx="35" cy="35" r="3" fill="#c9d1d9"/>
+    <circle cx="50" cy="35" r="4" fill="#ffd93d"/>
+    <circle cx="65" cy="35" r="3" fill="#c9d1d9"/>
+    <circle cx="80" cy="35" r="5" fill="#ffd93d"/>
+    
+    <circle cx="20" cy="50" r="4" fill="#ffd93d"/>
+    <circle cx="35" cy="50" r="3" fill="#c9d1d9"/>
+    <circle cx="50" cy="50" r="3" fill="#c9d1d9"/>
+    <circle cx="65" cy="50" r="4" fill="#ffd93d"/>
+    <circle cx="80" cy="50" r="3" fill="#c9d1d9"/>
+  </g>
+  
+  <!-- Pacman -->
+  <g transform="translate(150, 120)">
+    <circle cx="0" cy="0" r="15" fill="#ffff00"/>
+    <path d="M 0 0 L 15 -7 L 15 7 Z" fill="#0d1117">
+      <animateTransform attributeName="transform" type="rotate" values="0;20;0" dur="0.5s" repeatCount="indefinite"/>
+    </path>
+    <circle cx="-5" cy="-5" r="2" fill="#0d1117"/>
+  </g>
+  
+  <!-- Ghosts -->
+  <g transform="translate(250, 120)">
+    <!-- Red Ghost -->
+    <path d="M 0 -12 Q -12 -12 -12 0 L -12 12 L -8 8 L -4 12 L 0 8 L 4 12 L 8 8 L 12 12 L 12 0 Q 12 -12 0 -12 Z" 
+          fill="#ff6b6b">
+      <animateTransform attributeName="transform" type="translate" values="0,0; 2,0; 0,0; -2,0; 0,0" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <circle cx="-4" cy="-3" r="2" fill="white"/>
+    <circle cx="4" cy="-3" r="2" fill="white"/>
+    <circle cx="-4" cy="-3" r="1" fill="black"/>
+    <circle cx="4" cy="-3" r="1" fill="black"/>
+  </g>
+  
+  <!-- Sample maze borders -->
+  <rect x="45" y="45" width="310" height="130" fill="none" stroke="#30363d" stroke-width="2"/>
+  
+  <!-- Stats -->
+  <text x="50" y="220" fill="#c9d1d9" font-family="monospace" font-size="12">
+    Template for GitHub Contribution Visualization
+  </text>
+  <text x="50" y="240" fill="#c9d1d9" font-family="monospace" font-size="10">
+    • Dots represent contribution levels
+  </text>
+  <text x="50" y="255" fill="#c9d1d9" font-family="monospace" font-size="10">
+    • Pacman moves through your contribution graph
+  </text>
+  <text x="50" y="270" fill="#c9d1d9" font-family="monospace" font-size="10">
+    • Ghosts add game atmosphere
+  </text>
+</svg>

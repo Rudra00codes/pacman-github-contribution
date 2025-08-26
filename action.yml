@@ -1,0 +1,44 @@
+name: 'Pac-Man Contribution Eater'
+description: 'Generate an animated Pac-Man that eats your GitHub contributions'
+author: 'Your Name'
+
+branding:
+  icon: 'activity'
+  color: 'yellow'
+
+inputs:
+  github_user_name:
+    description: 'GitHub username'
+    required: true
+  outputs:
+    description: 'Output file path'
+    required: false
+    default: 'dist/pacman.svg'
+  theme:
+    description: 'Color theme (classic, dark, neon, retro)'
+    required: false
+    default: 'classic'
+  ghost_count:
+    description: 'Number of ghosts (1-4)'
+    required: false
+    default: '2'
+  animation_speed:
+    description: 'Animation speed (slow, normal, fast)'
+    required: false
+    default: 'normal'
+  show_score:
+    description: 'Show score counter'
+    required: false
+    default: 'true'
+  maze_complexity:
+    description: 'Maze complexity (simple, normal, complex)'
+    required: false
+    default: 'normal'
+
+outputs:
+  svg_path:
+    description: 'Path to generated SVG file'
+
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
