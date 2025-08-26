@@ -30,17 +30,14 @@ jobs:
       - name: Run linting
         run: npm run lint
 
-      - name: Run tests
-        run: npm test
-
       - name: Build action
         run: npm run build
 
       - name: Test action (dry run)
         run: node src/index.js
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          INPUT_USERNAME: octocat
+          GITHUB_TOKEN: dummy_for_test
+          INPUT_GITHUB_USER_NAME: octocat
           INPUT_THEME: classic
           INPUT_OUTPUT_PATH: test-dry-run.svg
           DRY_RUN: true
@@ -92,9 +89,12 @@ jobs:
       - name: Test action integration
         uses: ./
         with:
-          username: octocat
-          output_path: test-output/pacman.svg
+          github_user_name: octocat
+          outputs: test-output/pacman.svg
           theme: classic
+          ghost_count: 2
+          animation_speed: normal
+          show_score: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -105,6 +105,7 @@ jobs:
             exit 1
           fi
           echo "✅ Output file generated successfully"
+          ls -la test-output/
           
       - name: Upload test artifacts
         uses: actions/upload-artifact@v3

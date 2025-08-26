@@ -5,28 +5,49 @@
 Create `.github/workflows/pacman.yml` in your profile repository:
 
 ```yaml
-name: Pac-Man Animation
+name: Generate Pac-Man Animation
 
 on:
   schedule:
-    - cron: "0 6 * * *"  # Daily at 6 AM UTC
+    - cron: "0 0 * * *"  # Daily at midnight UTC
   workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
   generate:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Required to commit files
     steps:
-      - uses: actions/checkout@v4
-      - uses: yourusername/pacman-github-contribution@v1
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Generate Pac-Man Animation
+        uses: yourusername/pacman-github-contribution@v1
         with:
           github_user_name: ${{ github.repository_owner }}
-      - name: Commit files
+          outputs: dist/pacman.svg
+          theme: classic
+          ghost_count: 2
+          animation_speed: normal
+          show_score: true
+          maze_complexity: normal
+          
+      - name: Commit and Push
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          git config user.name github-actions
+          git config user.email github-actions@github.com
           git add dist/pacman.svg
-          git diff --staged --quiet || git commit -m "🎮 Update Pac-Man animation"
-          git push
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "🎮 Update Pac-Man animation"
+            git push
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 ## README Integration
