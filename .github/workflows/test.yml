@@ -32,8 +32,6 @@ jobs:
 
       - name: Run tests
         run: npm test
-        env:
-          NODE_ENV: test
 
       - name: Build action
         run: npm run build
@@ -42,7 +40,9 @@ jobs:
         run: node src/index.js
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_USER_NAME: octocat
+          INPUT_USERNAME: octocat
+          INPUT_THEME: classic
+          INPUT_OUTPUT_PATH: test-dry-run.svg
           DRY_RUN: true
 
   build:
